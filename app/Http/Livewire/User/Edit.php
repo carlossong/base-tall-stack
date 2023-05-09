@@ -5,6 +5,8 @@ namespace App\Http\Livewire\User;
 use App\Models\Role;
 use App\Models\User;
 use Livewire\Component;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 
 class Edit extends Component
 {
@@ -42,6 +44,7 @@ class Edit extends Component
 
     public function save()
     {
+        abort_if(Gate::denies('user_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $this->validate();
         if ($this->password) {
             $this->user->password = bcrypt($this->password);
@@ -62,6 +65,7 @@ class Edit extends Component
 
     public function render()
     {
+        abort_if(Gate::denies('user_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $this->formRoles = Role::pluck('title', 'id');
         return view('livewire.user.edit');
     }

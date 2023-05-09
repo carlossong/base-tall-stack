@@ -15,11 +15,12 @@ class Index extends Component
 
     public function confirmingUserDeletion(User $user)
     {
+        abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->user = $user;
         $this->dispatchBrowserEvent('swal:confirm', [
             'type' => 'question',
-            'title' => 'Remover ' . $user->name .'?',
+            'title' => 'Remover ' . $user->name . '?',
             'text' => '',
             'id' => $user->id,
         ]);
@@ -27,6 +28,7 @@ class Index extends Component
 
     public function delete()
     {
+        abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->user->delete();
         $this->dispatchBrowserEvent('swal:toast', [
@@ -38,10 +40,12 @@ class Index extends Component
 
     public function getUsersProperty()
     {
+        abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         return User::with('roles')
-        ->where('name', 'like', '%'.$this->search.'%')
-        ->orWhere('email', 'like', '%'.$this->search.'%')
-        ->orderBy('name')->paginate(10);
+            ->where('name', 'like', '%' . $this->search . '%')
+            ->orWhere('email', 'like', '%' . $this->search . '%')
+            ->orderBy('name')->paginate(10);
     }
 
     public function render()
