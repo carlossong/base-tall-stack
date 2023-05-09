@@ -36,21 +36,24 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 sm:rounded-lg overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="shadow-lg rounded-lg overflow-hidden">
-                    <a href="{{ route('user.create') }}"
-                        class="ml-4 relative inline-flex items-center justify-center p-0.5 my-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-500 group-hover:from-green-400 group-hover:to-blue-400 hover:text-white focus:ring-4 focus:outline-none focus:ring-indigo-200">
-                        <span
-                            class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-green-400 rounded-md group-hover:bg-opacity-0">
-                            Novo
-                        </span>
-                    </a>
-                    <x-input type="text" wire:model.debounce.300ms="search" id="search" class="m-4"
-                        type="text" placeholder="Buscar Usuário" autocomplete="nope" />
+                    <div class="flex justify-start items-center">
+                        <a href="{{ route('user.create') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="w-10 h-10 ml-4 text-green-900 dark:hover:text-indigo-400 dark:text-green-500 cursor-pointer justify-between hover:text-indigo-600">
+                                <path fill-rule="evenodd"
+                                    d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 9a.75.75 0 00-1.5 0v2.25H9a.75.75 0 000 1.5h2.25V15a.75.75 0 001.5 0v-2.25H15a.75.75 0 000-1.5h-2.25V9z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                        <x-input type="text" wire:model.debounce.300ms="search" id="search" class="m-4 w-full"
+                            type="text" placeholder="Buscar Usuário" autocomplete="nope" />
+                    </div>
                     <div x-data class="p-4 grid md:grid-cols-2 gap-4">
                         @foreach ($this->users as $index => $user)
                             <div x-data="{ opened_tab: null }" class="flex flex-col">
                                 <div class="flex flex-col border rounded shadow mb-2">
                                     <div @click="opened_tab = opened_tab == {{ $index }} ? null : {{ $index }} "
-                                        class="text-sm font-medium text-gray-700 dark:text-gray-400 hover:text-gray-900 p-4 cursor-pointer flex justify-between hover:text-indigo-600 hover:text-base">
+                                        class="text-sm font-medium text-gray-700 dark:text-gray-400 p-4 cursor-pointer flex justify-between hover:text-indigo-600 hover:text-base">
                                         {{ $user->name }}
                                         <div>
                                             @foreach ($user->roles as $role)
@@ -62,8 +65,7 @@
                                         </div>
                                     </div>
                                     <div x-show="opened_tab=={{ $index }}" class="p-4 pb-4 text-gray-500">
-                                        <div class="flex justify-between"
-                                            x-on:dblclick="$wire.edit('{{ $user->id }}')">
+                                        <div class="flex justify-between">
                                             <p>{{ $user->email }}</p>
                                             <div class="flex">
                                                 @if ($user->email_verified_at)

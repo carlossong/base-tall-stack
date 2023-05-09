@@ -45,11 +45,8 @@ class Create extends Component
         $this->form->password = bcrypt($this->password);
         $this->form->save();
         $this->form->roles()->sync($this->roles);
-        $this->dispatchBrowserEvent('swal:toast', [
-            'type' => 'success',
-            'title' => 'Usuário salvo com sucesso!',
-            'text' => '',
-        ]);
+        $user = $this->form;
+        return redirect()->route('user.edit', $user);
     }
 
     public function cancel()
