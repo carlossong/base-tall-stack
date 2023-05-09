@@ -45,6 +45,63 @@
 
     @livewireScripts
 
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @if (session()->has('success'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+            Toast.fire({
+                icon: 'success',
+                title: '{!! \Session::get('success') !!}'
+            })
+        </script>
+    @endif
+
+    <!-- Confirmation -->
+    <script>
+        window.addEventListener('swal:toast', event => {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+            Toast.fire({
+                title: event.detail.title,
+                text: event.detail.text,
+                icon: event.detail.type,
+            })
+        });
+        window.addEventListener('swal:confirm', event => {
+            swal.fire({
+                    title: event.detail.title,
+                    text: event.detail.text,
+                    icon: event.detail.type,
+                    showCancelButton: true,
+                })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        window.livewire.emit('delete', event.detail.id);
+                    }
+                });
+        });
+    </script>
+
 </body>
 
 </html>
