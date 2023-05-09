@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Livewire\User\Create;
-use App\Http\Livewire\User\Edit;
-use App\Http\Livewire\User\Index;
+use App\Http\Livewire\Role\Index as RoleIndex;
+use App\Http\Livewire\User\Create as UserCreate;
+use App\Http\Livewire\User\Edit as UserEdit;
+use App\Http\Livewire\User\Index as UserIndex;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,7 +30,9 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
-    Route::get('usuarios', Index::class)->name('user.index');
-    Route::get('usuarios/novo', Create::class)->name('user.create');
-    Route::get('usuarios/editar/{user}', Edit::class)->name('user.edit');
+    Route::get('usuarios', UserIndex::class)->name('user.index');
+    Route::get('usuarios/novo', UserCreate::class)->name('user.create');
+    Route::get('usuarios/editar/{user}', UserEdit::class)->name('user.edit');
+
+    Route::get('hierarquias', RoleIndex::class)->name('role.index');
 });

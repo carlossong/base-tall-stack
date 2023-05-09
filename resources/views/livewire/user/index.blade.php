@@ -32,17 +32,24 @@
         </h2>
     </x-slot>
 
-    <div class="py-8">
+    <div class="md:py-8">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 sm:rounded-lg overflow-hidden shadow-xl sm:rounded-lg">
+            <div class="bg-white dark:bg-gray-800 sm:rounded-lg overflow-hidden shadow-xl">
                 <div class="shadow-lg rounded-lg overflow-hidden">
                     <div class="flex justify-start items-center">
                         <a href="{{ route('user.create') }}">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                class="w-10 h-10 ml-4 text-green-900 dark:hover:text-indigo-400 dark:text-green-500 cursor-pointer justify-between hover:text-indigo-600">
-                                <path fill-rule="evenodd"
-                                    d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 9a.75.75 0 00-1.5 0v2.25H9a.75.75 0 000 1.5h2.25V15a.75.75 0 001.5 0v-2.25H15a.75.75 0 000-1.5h-2.25V9z"
-                                    clip-rule="evenodd" />
+                                class="w-10 h-10 ml-4 text-indigo-900 dark:hover:text-indigo-400 dark:text-indigo-500 cursor-pointer justify-between hover:text-indigo-600">
+                                <path
+                                    d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z" />
+                            </svg>
+                        </a>
+                        <a href="{{ route('role.index') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor"
+                                class="w-10 h-10 ml-4 text-teal-900 dark:hover:text-teal-400 dark:text-teal-500 cursor-pointer justify-between hover:text-teal-600">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
                             </svg>
                         </a>
                         <x-input type="text" wire:model.debounce.300ms="search" id="search" class="m-4 w-full"
