@@ -43,13 +43,6 @@
                             Novo
                         </span>
                     </button>
-                    <a href="{{ route('roles') }}"
-                        class="ml-4 relative inline-flex items-center justify-center p-0.5 my-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-indigo-400 to-blue-600 group-hover:from-indigo-400 group-hover:to-blue-400 hover:text-white focus:ring-4 focus:outline-none focus:ring-indigo-200">
-                        <span
-                            class="relative px-5 py-2 transition-all ease-in duration-75 bg-indigo-400 rounded-md group-hover:bg-opacity-0">
-                            Hierarquias
-                        </span>
-                    </a>
                     <x-input type="text" wire:model.debounce.300ms="search" id="search" class="m-4"
                         type="text" placeholder="Buscar Usuário" autocomplete="nope" />
                     <div x-data class="p-4 grid md:grid-cols-2 gap-4">
