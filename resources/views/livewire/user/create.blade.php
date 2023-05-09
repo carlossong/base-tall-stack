@@ -39,7 +39,10 @@
                     </label>
                 @endforeach
             </div>
-            <div class="mt-2">
+            <div class="mt-2 text-end">
+                <x-secondary-button wire:click='cancel' wire:loading.attr="disabled">
+                    {{ __('Cancelar') }}
+                </x-secondary-button>
                 <x-button class="ml-3" wire:click="save" wire:loading.attr="disabled">
                     {{ __('Salvar') }}
                 </x-button>

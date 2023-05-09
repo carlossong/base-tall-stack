@@ -30,7 +30,7 @@
 
             <!-- Roles-->
             <div class="mt-2">
-                <x-label for="user.roles" value="{{ __('Roles') }}" />
+                <x-label for="user.roles" value="{{ __('Hierarquias') }}" />
                 @foreach ($formRoles as $id => $role)
                     <label for="{{ $id }}" class="flex items-center">
                         <x-checkbox name="roles[]" id="{{ $id }}" wire:model.defer="roles"
@@ -39,8 +39,11 @@
                     </label>
                 @endforeach
             </div>
-            <div class="mt-2">
-                <x-button class="ml-3" wire:click="save" wire:loading.attr="disabled">
+            <div class="mt-2 text-end">
+                <x-secondary-button wire:click='cancel' wire:loading.attr="disabled">
+                    {{ __('Cancelar') }}
+                </x-secondary-button>
+                <x-button wire:click="save" wire:loading.attr="disabled">
                     {{ __('Salvar') }}
                 </x-button>
             </div>

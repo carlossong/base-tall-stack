@@ -18,6 +18,7 @@ class Edit extends Component
         $this->user = $user;
         $this->user->load('roles');
         $this->roles = $user->roles->pluck('id')->toArray();
+        $this->clearValidation();
     }
 
     protected function rules(): array
@@ -34,7 +35,7 @@ class Edit extends Component
             ],
             'password' => [
                 'string',
-                'required',
+                'min:8',
             ]
         ];
     }
@@ -42,7 +43,9 @@ class Edit extends Component
     public function save()
     {
         $this->validate();
-        $this->user->password = bcrypt($this->password);
+        if ($this->password) {
+            $this->user->password = bcrypt($this->password);
+        }
         $this->user->save();
         $this->user->roles()->sync($this->roles);
         $this->dispatchBrowserEvent('swal:toast', [
@@ -50,8 +53,13 @@ class Edit extends Component
             'title' => 'Usuário salvo com sucesso!',
             'text' => '',
         ]);
-
     }
+
+    public function cancel()
+    {
+        return redirect()->route('user.index');
+    }
+
     public function render()
     {
         $this->formRoles = Role::pluck('title', 'id');

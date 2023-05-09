@@ -34,6 +34,7 @@ class Create extends Component
             'password' => [
                 'string',
                 'required',
+                'min:8',
             ]
         ];
     }
@@ -49,7 +50,11 @@ class Create extends Component
             'title' => 'Usuário salvo com sucesso!',
             'text' => '',
         ]);
+    }
 
+    public function cancel()
+    {
+        return redirect()->route('user.index');
     }
 
     public function render()
