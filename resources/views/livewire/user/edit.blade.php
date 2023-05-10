@@ -31,7 +31,8 @@
             </nav>
         </h2>
     </x-slot>
-    <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg justify-items-end">
+    <div
+        class="max-w-4xl mx-auto sm:px-6 lg:px-8 mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg justify-items-end">
         <div class="space-y-4">
             <form wire:submit.prevent="save">
                 <!-- Name -->
@@ -59,17 +60,19 @@
                 </div>
 
                 <!-- Roles-->
-                <div class="mt-2">
-                    <x-label for="user.roles" value="{{ __('Hierarquias') }}" />
-                    @foreach ($formRoles as $id => $role)
-                        <label for="{{ $id }}" class="flex items-center">
-                            <x-checkbox name="roles[]" id="{{ $id }}" wire:model.defer="roles"
-                                value="{{ $id }}" />
-                            <span class="ml-2 text-sm text-gray-600">{{ $role }}</span>
-                        </label>
-                    @endforeach
-                </div>
-                <div class="mt-2 text-end">
+                @can('role_edit')
+                    <div class="mt-2">
+                        <x-label for="user.roles" value="{{ __('Hierarquias') }}" />
+                        @foreach ($formRoles as $id => $role)
+                            <label for="{{ $id }}" class="flex items-center">
+                                <x-checkbox name="roles[]" id="{{ $id }}" wire:model.defer="roles"
+                                    value="{{ $id }}" />
+                                <span class="ml-2 text-sm text-gray-600">{{ $role }}</span>
+                            </label>
+                        @endforeach
+                    </div>
+                @endcan
+                <div class="mt-4 text-end">
                     <x-secondary-button wire:click='cancel' wire:loading.attr="disabled">
                         {{ __('Fechar') }}
                     </x-secondary-button>
