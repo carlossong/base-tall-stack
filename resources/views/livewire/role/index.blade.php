@@ -43,4 +43,35 @@
             </nav>
         </h2>
     </x-slot>
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div x-data class="p-4 grid md:grid-cols-2 gap-4">
+            @foreach ($this->roles as $index => $role)
+                <div x-data="{ opened_tab: null }" class="flex flex-col">
+                    <div class="flex flex-col border rounded shadow mb-2">
+                        <div @click="opened_tab = opened_tab == {{ $index }} ? null : {{ $index }} "
+                            class="text-sm font-medium text-gray-700 dark:text-gray-400 p-4 cursor-pointer flex justify-between hover:text-indigo-600 hover:text-base">
+                            <div class="flex items-center">
+                                {{ $role->title }}
+                            </div>
+                        </div>
+                        <div x-show="opened_tab=={{ $index }}" class="p-4 text-gray-500">
+                            <div class="flex">
+                                <div>
+                                    @foreach ($role->users as $user)
+                                        <span
+                                            class="px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-lg bg-green-100 text-green-800 items-center">
+                                            {{ $user->name }}
+                                        </span>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+        <div class="m-4">
+            {{ $this->roles->links() }}
+        </div>
+    </div>
 </div>

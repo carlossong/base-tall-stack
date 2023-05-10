@@ -35,4 +35,5 @@ Route::middleware([
     Route::get('usuarios/editar/{user}', UserEdit::class)->name('user.edit');
 
     Route::get('hierarquias', RoleIndex::class)->name('role.index');
+
 });
