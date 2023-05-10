@@ -5,7 +5,8 @@ namespace App\Http\Livewire\User;
 use App\Models\Role;
 use App\Models\User;
 use Livewire\Component;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 
 class Create extends Component
 {
@@ -56,6 +57,7 @@ class Create extends Component
 
     public function render()
     {
+        abort_if(Gate::denies('user_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $this->formRoles = Role::pluck('title', 'id');
         return view('livewire.user.create');
     }

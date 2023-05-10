@@ -37,21 +37,23 @@
             <div class="bg-white dark:bg-gray-800 sm:rounded-lg overflow-hidden shadow-xl">
                 <div class="shadow-lg rounded-lg overflow-hidden">
                     <div class="flex justify-start items-center">
-                        <a href="{{ route('user.create') }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                class="w-10 h-10 ml-4 text-indigo-900 dark:hover:text-indigo-400 dark:text-indigo-500 cursor-pointer justify-between hover:text-indigo-600">
-                                <path
-                                    d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z" />
-                            </svg>
-                        </a>
-                        <a href="{{ route('role.index') }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor"
-                                class="w-10 h-10 ml-4 text-teal-900 dark:hover:text-teal-400 dark:text-teal-500 cursor-pointer justify-between hover:text-teal-600">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-                            </svg>
-                        </a>
+                        @can('user_edit')
+                            <a href="{{ route('user.create') }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                    class="w-10 h-10 ml-4 text-indigo-900 dark:hover:text-indigo-400 dark:text-indigo-500 cursor-pointer justify-between hover:text-indigo-600">
+                                    <path
+                                        d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z" />
+                                </svg>
+                            </a>
+                            <a href="{{ route('role.index') }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="w-10 h-10 ml-4 text-indigo-900 dark:hover:text-indigo-400 dark:text-indigo-500 cursor-pointer justify-between hover:text-indigo-600"
+                                    alt="Verificado">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M13.5 10.5V6.75a4.5 4.5 0 119 0v3.75M3.75 21.75h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H3.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                                </svg>
+                            </a>
+                        @endcan
                         <x-input type="text" wire:model.debounce.300ms="search" id="search" class="m-4 w-full"
                             type="text" placeholder="Buscar Usuário" autocomplete="nope" />
                     </div>
@@ -61,7 +63,14 @@
                                 <div class="flex flex-col border rounded shadow mb-2">
                                     <div @click="opened_tab = opened_tab == {{ $index }} ? null : {{ $index }} "
                                         class="text-sm font-medium text-gray-700 dark:text-gray-400 p-4 cursor-pointer flex justify-between hover:text-indigo-600 hover:text-base">
-                                        {{ $user->name }}
+                                        <div class="flex items-center">
+                                            <button
+                                                class="flex text-sm border-2 border-transparent rounded-full focus:outline-none m-2 transition">
+                                                <img class="h-8 w-8 rounded-full object-cover"
+                                                    src="{{ $user->profile_photo_url }}" />
+                                            </button>
+                                            {{ $user->name }}
+                                        </div>
                                         <div>
                                             @foreach ($user->roles as $role)
                                                 <span

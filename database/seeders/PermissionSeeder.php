@@ -24,19 +24,11 @@ class PermissionSeeder extends Seeder
             ],
             [
                 'id'    => 3,
-                'title' => 'user_delete',
+                'title' => 'user_create',
             ],
             [
                 'id'    => 4,
-                'title' => 'role_access',
-            ],
-            [
-                'id'    => 5,
-                'title' => 'role_edit',
-            ],
-            [
-                'id'    => 6,
-                'title' => 'role_delete',
+                'title' => 'user_delete',
             ]
         ];
 
