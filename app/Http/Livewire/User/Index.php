@@ -31,11 +31,8 @@ class Index extends Component
         abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->user->delete();
-        $this->dispatchBrowserEvent('swal:toast', [
-            'type' => 'success',
-            'title' => 'Usuário removido com sucesso!',
-            'text' => '',
-        ]);
+        session()->flash('success', 'Usuário removido com sucesso!');
+        return redirect()->route('user.index');
     }
 
     public function getUsersProperty()

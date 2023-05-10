@@ -47,7 +47,7 @@ class Create extends Component
         $this->form->save();
         $this->form->roles()->sync($this->roles);
         $user = $this->form;
-        session()->flash('success', 'Usuário adicionado com sucesso');
+        session()->flash('success', 'Usuário adicionado com sucesso!');
         return redirect()->route('user.edit', $user);
     }
 
