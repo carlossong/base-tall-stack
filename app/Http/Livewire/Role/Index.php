@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Role;
 
 use App\Models\Permission;
 use App\Models\Role;
+use Exception;
 use Livewire\Component;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
@@ -41,62 +42,86 @@ class Index extends Component
 
     public function newRole(Role $role)
     {
-        abort_if(Gate::denies('role_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $this->form = $role;
-        $this->openModalCreate = true;
-        $this->clearValidation();
+        try {
+            abort_if(Gate::denies('role_create'), Response::HTTP_FORBIDDEN, 'Acesso Negado!');
+            $this->form = $role;
+            $this->openModalCreate = true;
+            $this->clearValidation();
+        } catch (Exception $exception) {
+            $this->dispatchBrowserEvent('swal:toast', [
+                'type' => 'error',
+                'title' => $exception->getMessage(),
+                'text' => 'Contate o Administrador',
+            ]);
+        }
     }
 
     public function save()
     {
-        $this->validate();
-        $this->form->save();
-        $this->form->permissions()->sync($this->permissions);
-        $this->openModalCreate = false;
-        $this->dispatchBrowserEvent('swal:toast', [
-            'type' => 'success',
-            'title' => 'Hierarquia salva com sucesso!',
-            'text' => '',
-        ]);
+        try {
+            $this->validate();
+            $this->form->save();
+            $this->form->permissions()->sync($this->permissions);
+            $this->openModalCreate = false;
+            $this->dispatchBrowserEvent('swal:toast', [
+                'type' => 'success',
+                'title' => 'Hierarquia salva com sucesso!',
+                'text' => '',
+            ]);
+        } catch (Exception $exception) {
+            $this->dispatchBrowserEvent('swal:toast', [
+                'type' => 'error',
+                'title' => $exception->getMessage(),
+                'text' => 'Contate o Administrador',
+            ]);
+        }
     }
 
     public function confirmingRoleDeletion(Role $role)
     {
-        abort_if(Gate::denies('role_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        if ($role->permissions->count() || $role->users->count()) {
-
+        try {
+            abort_if(Gate::denies('role_delete'), Response::HTTP_FORBIDDEN, 'Acesso Negado!');
+            if ($role->permissions->count() || $role->users->count()) {
+                $this->dispatchBrowserEvent('swal:toast', [
+                    'type' => 'error',
+                    'title' => 'Hirarquia não pode ser apagada!',
+                    'text' => '',
+                ]);
+                return;
+            }
+            $this->roleToRemove = $role;
+            $this->dispatchBrowserEvent('swal:confirm', [
+                'type' => 'question',
+                'title' => 'Remover ' . $role->title . '?',
+                'text' => '',
+                'id' => $role->id,
+            ]);
+        } catch (Exception $exception) {
             $this->dispatchBrowserEvent('swal:toast', [
                 'type' => 'error',
-                'title' => 'Hirarquia não pode ser apagada!',
-                'text' => '',
+                'title' => $exception->getMessage(),
+                'text' => 'Contate o Administrador',
             ]);
-
-            return;
         }
-
-        $this->roleToRemove = $role;
-
-        $this->dispatchBrowserEvent('swal:confirm', [
-            'type' => 'question',
-            'title' => 'Remover ' . $role->title . '?',
-            'text' => '',
-            'id' => $role->id,
-        ]);
     }
 
     public function delete()
     {
-        abort_if(Gate::denies('role_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $this->roleToRemove->delete();
-
-        $this->dispatchBrowserEvent('swal:toast', [
-            'type' => 'success',
-            'title' => 'Hierarquia removida com sucesso!',
-            'text' => '',
-        ]);
+        try {
+            abort_if(Gate::denies('role_delete'), Response::HTTP_FORBIDDEN, 'Acesso Negado!');
+            $this->roleToRemove->delete();
+            $this->dispatchBrowserEvent('swal:toast', [
+                'type' => 'success',
+                'title' => 'Hierarquia removida com sucesso!',
+                'text' => '',
+            ]);
+        } catch (Exception $exception) {
+            $this->dispatchBrowserEvent('swal:toast', [
+                'type' => 'error',
+                'title' => $exception->getMessage(),
+                'text' => 'Contate o Administrador',
+            ]);
+        }
     }
 
     public function mount(Role $form)
@@ -106,8 +131,7 @@ class Index extends Component
 
     public function getRolesProperty()
     {
-        abort_if(Gate::denies('role_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        abort_if(Gate::denies('role_access'), Response::HTTP_FORBIDDEN, 'Acesso Negado!');
         return Role::with('users')
             ->where('title', 'like', '%' . $this->search . '%')
             ->orderBy('title')->paginate(10);
