@@ -4,6 +4,7 @@ namespace App\Http\Livewire\User;
 
 use App\Models\Role;
 use App\Models\User;
+use Exception;
 use Livewire\Component;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
@@ -42,13 +43,22 @@ class Create extends Component
 
     public function save()
     {
-        $this->validate();
-        $this->form->password = bcrypt($this->password);
-        $this->form->save();
-        $this->form->roles()->sync($this->roles);
-        $user = $this->form;
-        session()->flash('success', 'Usuário adicionado com sucesso!');
-        return redirect()->route('user.edit', $user);
+        try {
+            abort_if(Gate::denies('user_create'), Response::HTTP_FORBIDDEN, 'Acesso Negado!');
+            $this->validate();
+            $this->form->password = bcrypt($this->password);
+            $this->form->save();
+            $this->form->roles()->sync($this->roles);
+            $user = $this->form;
+            session()->flash('success', 'Usuário Adicionado com Sucesso!');
+            return redirect()->route('user.index');
+        } catch (Exception $exception) {
+            $this->dispatchBrowserEvent('swal:toast', [
+                'type' => 'error',
+                'title' => $exception->getMessage(),
+                'text' => 'Contate o Administrador',
+            ]);
+        }
     }
 
     public function cancel()
@@ -58,7 +68,7 @@ class Create extends Component
 
     public function render()
     {
-        abort_if(Gate::denies('user_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('user_create'), Response::HTTP_FORBIDDEN, 'Acesso Negado!');
         $this->formRoles = Role::pluck('title', 'id');
         return view('livewire.user.create');
     }
