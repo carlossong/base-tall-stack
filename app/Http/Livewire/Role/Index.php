@@ -84,8 +84,8 @@ class Index extends Component
             if ($role->permissions->count() || $role->users->count()) {
                 $this->dispatchBrowserEvent('swal:toast', [
                     'type' => 'error',
-                    'title' => 'Hirarquia não pode ser apagada!',
-                    'text' => '',
+                    'title' => 'Ação Negada!',
+                    'text' => 'Há Usuarios Vinculado.',
                 ]);
                 return;
             }
