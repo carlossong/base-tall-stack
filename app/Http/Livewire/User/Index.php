@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\User;
 
 use App\Models\User;
+use Exception;
 use Livewire\Component;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
@@ -15,20 +16,28 @@ class Index extends Component
 
     public function confirmingUserDeletion(User $user)
     {
-        abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        try {
+            abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, 'Acesso Negado!');
 
-        $this->user = $user;
-        $this->dispatchBrowserEvent('swal:confirm', [
-            'type' => 'question',
-            'title' => 'Remover ' . $user->name . '?',
-            'text' => '',
-            'id' => $user->id,
-        ]);
+            $this->user = $user;
+            $this->dispatchBrowserEvent('swal:confirm', [
+                'type' => 'question',
+                'title' => 'Remover ' . $user->name . '?',
+                'text' => 'Essa ação não poderá ser revertida.',
+                'id' => $user->id,
+            ]);
+        } catch (Exception $exception) {
+            $this->dispatchBrowserEvent('swal:toast', [
+                'type' => 'error',
+                'title' => $exception->getMessage(),
+                'text' => 'Contate o Administrador',
+            ]);
+        }
     }
 
     public function delete()
     {
-        abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, 'Acesso Negado!');
 
         $this->user->delete();
         session()->flash('success', 'Usuário removido com sucesso!');
@@ -37,7 +46,7 @@ class Index extends Component
 
     public function getUsersProperty()
     {
-        abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, 'Acesso Negado!');
 
         return User::with('roles')
             ->where('name', 'like', '%' . $this->search . '%')

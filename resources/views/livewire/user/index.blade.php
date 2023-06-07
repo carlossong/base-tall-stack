@@ -64,7 +64,7 @@
                             <div x-data="{ opened_tab: null }" class="flex flex-col">
                                 <div class="flex flex-col border rounded shadow mb-2">
                                     <div @click="opened_tab = opened_tab == {{ $index }} ? null : {{ $index }} "
-                                        class="text-sm font-medium text-gray-700 dark:text-gray-400 p-4 cursor-pointer flex justify-between hover:text-indigo-600 hover:text-base">
+                                        class="text-sm font-medium text-gray-700 dark:text-gray-400 p-4 cursor-pointer flex justify-between">
                                         <div class="flex items-center">
                                             <button
                                                 class="flex text-sm border-2 border-transparent rounded-full focus:outline-none m-2 transition">
@@ -73,7 +73,7 @@
                                             </button>
                                             {{ $user->name }}
                                         </div>
-                                        <div>
+                                        <div class="flex items-center">
                                             @foreach ($user->roles as $role)
                                                 <span
                                                     class="px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-lg bg-green-100 text-green-800 items-center">

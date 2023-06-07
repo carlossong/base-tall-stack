@@ -94,6 +94,9 @@
                     text: event.detail.text,
                     icon: event.detail.type,
                     showCancelButton: true,
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonColor: '#d33',
+                    confirmButtonText: 'Confirmar',
                 })
                 .then((result) => {
                     if (result.isConfirmed) {
