@@ -64,11 +64,11 @@
                             <div x-data="{ opened_tab: null }" class="flex flex-col">
                                 <div class="flex flex-col border rounded shadow mb-2">
                                     <div @click="opened_tab = opened_tab == {{ $index }} ? null : {{ $index }} "
-                                        class="text-sm font-medium text-gray-700 dark:text-gray-400 p-4 cursor-pointer flex justify-between">
+                                        class="text-sm font-medium text-gray-700 dark:text-gray-400 p-2 cursor-pointer flex justify-between">
                                         <div class="flex items-center">
                                             <button
                                                 class="flex text-sm border-2 border-transparent rounded-full focus:outline-none m-2 transition">
-                                                <img class="h-8 w-8 rounded-full object-cover"
+                                                <img class="h-10 w-10 rounded-full object-cover"
                                                     src="{{ $user->profile_photo_url }}" />
                                             </button>
                                             {{ $user->name }}
