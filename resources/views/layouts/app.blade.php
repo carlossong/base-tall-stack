@@ -105,6 +105,24 @@
                 });
         });
     </script>
+    <script>
+        window.addEventListener('swal:confirm-restore', event => {
+            swal.fire({
+                    title: event.detail.title,
+                    text: event.detail.text,
+                    icon: event.detail.type,
+                    showCancelButton: true,
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonColor: '#6366f1',
+                    confirmButtonText: 'Confirmar',
+                })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        window.livewire.emit('restore', event.detail.id);
+                    }
+                });
+        });
+    </script>
 
 </body>
 

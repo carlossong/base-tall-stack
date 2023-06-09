@@ -85,7 +85,7 @@ class Index extends Component
                 $this->dispatchBrowserEvent('swal:toast', [
                     'type' => 'error',
                     'title' => 'Ação Negada!',
-                    'text' => 'Há Usuarios Vinculado.',
+                    'text' => 'Há Usuario Vinculado.',
                 ]);
                 return;
             }

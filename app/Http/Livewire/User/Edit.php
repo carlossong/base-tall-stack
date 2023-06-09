@@ -53,11 +53,8 @@ class Edit extends Component
             }
             $this->user->save();
             $this->user->roles()->sync($this->roles);
-            $this->dispatchBrowserEvent('swal:toast', [
-                'type' => 'success',
-                'title' => 'Usuário Salvo com Sucesso!',
-                'text' => '',
-            ]);
+            session()->flash('success', 'Usuário Atualizado com Sucesso!');
+            return redirect()->route('user.index');
         } catch (Exception $exception) {
             $this->dispatchBrowserEvent('swal:toast', [
                 'type' => 'error',
