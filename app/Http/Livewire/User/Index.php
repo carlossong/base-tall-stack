@@ -6,6 +6,7 @@ use App\Models\User;
 use Exception;
 use Livewire\Component;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class Index extends Component
@@ -14,11 +15,18 @@ class Index extends Component
     public ?User $user;
     protected $listeners = ['delete', 'restore'];
 
-    public function desativeUser(User $user)
+    public function condirmDesativeUser(User $user)
     {
         try {
             abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, 'Acesso Negado!');
-
+            if ($user->id === Auth::user()->id) {
+                $this->dispatchBrowserEvent('swal:toast', [
+                    'type' => 'error',
+                    'title' => 'Ação Negada!',
+                    'text' => 'Contate o Administrador',
+                ]);
+                return;
+            }
             $this->user = $user;
             $this->dispatchBrowserEvent('swal:confirm', [
                 'type' => 'question',
@@ -35,7 +43,7 @@ class Index extends Component
         }
     }
 
-    public function activeUser($user)
+    public function condirmActiveUser($user)
     {
         try {
             $user = User::onlyTrashed()->first();
@@ -67,7 +75,6 @@ class Index extends Component
     public function delete()
     {
         abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, 'Acesso Negado!');
-
         $this->user->delete();
         session()->flash('success', 'Usuário removido com sucesso!');
         return redirect()->route('user.index');

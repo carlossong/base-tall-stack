@@ -62,7 +62,8 @@
                 <!-- Roles-->
                 @can('role_edit')
                     <div class="mt-2">
-                        <x-label for="user.roles" value="{{ __('Hierarquias') }}" />
+                        <span
+                            class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('Hierarquias') }}</span>
                         @foreach ($formRoles as $id => $role)
                             <label for="{{ $id }}" class="flex items-center">
                                 <x-checkbox name="roles[]" id="{{ $id }}" wire:model.defer="roles"

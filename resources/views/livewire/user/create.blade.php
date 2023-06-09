@@ -31,7 +31,8 @@
             </nav>
         </h2>
     </x-slot>
-    <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg justify-items-end">
+    <div
+        class="max-w-4xl mx-auto sm:px-6 lg:px-8 mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg justify-items-end">
         <form wire:submit.prevent="save">
             <!-- Name -->
             <div class="mt-2">
@@ -59,7 +60,8 @@
 
             <!-- Roles-->
             <div class="mt-2">
-                <x-label for="form.roles" value="{{ __('Hierarquias') }}" />
+                <span
+                    class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('Hierarquias') }}</span>
                 @foreach ($formRoles as $id => $role)
                     <label for="{{ $id }}" class="flex items-center">
                         <x-checkbox name="roles[]" id="{{ $id }}" wire:model.defer="roles"
