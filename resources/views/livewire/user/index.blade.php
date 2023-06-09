@@ -74,12 +74,19 @@
                                             {{ $user->name }}
                                         </div>
                                         <div class="flex items-center">
-                                            @foreach ($user->roles as $role)
+                                            @if (!$user->deleted_at)
+                                                @foreach ($user->roles as $role)
+                                                    <span
+                                                        class="px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-lg bg-green-100 text-green-800 items-center">
+                                                        {{ $role->title }}
+                                                    </span>
+                                                @endforeach
+                                            @else
                                                 <span
-                                                    class="px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-lg bg-green-100 text-green-800 items-center">
-                                                    {{ $role->title }}
+                                                    class="px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-lg bg-red-100 text-red-800 items-center">
+                                                    {{ __('Destivado') }}
                                                 </span>
-                                            @endforeach
+                                            @endif
                                         </div>
                                     </div>
                                     <div x-show="opened_tab=={{ $index }}" class="p-4 pb-4 text-gray-500">
