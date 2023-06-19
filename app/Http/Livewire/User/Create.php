@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\User;
 
+use App\Http\Requests\StoreUserRequest;
 use App\Models\Role;
 use App\Models\User;
 use Exception;
@@ -23,22 +24,7 @@ class Create extends Component
 
     protected function rules(): array
     {
-        return [
-            'form.name' => [
-                'string',
-                'required',
-            ],
-            'form.email' => [
-                'email:rfc',
-                'required',
-                'unique:users,email',
-            ],
-            'password' => [
-                'string',
-                'required',
-                'min:8',
-            ]
-        ];
+        return (new StoreUserRequest())->rules();
     }
 
     public function save()

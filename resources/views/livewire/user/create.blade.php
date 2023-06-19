@@ -34,6 +34,11 @@
     <div
         class="max-w-4xl mx-auto sm:px-6 lg:px-8 mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg justify-items-end">
         <form wire:submit.prevent="save">
+            <div class="text-indigo-500">
+                <span wire:loading.delay wire:target="save">
+                    Salvando...
+                </span>
+            </div>
             <!-- Name -->
             <div class="mt-2">
                 <x-label for="form.name" value="{{ __('Name') }}" />
